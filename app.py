@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from datetime import datetime
 from db_functions import getTopPosts, getTopAuthors, getTopErrorDays
 
