@@ -1,6 +1,6 @@
 import psycopg2
 
-CONN = psycopg2.connect('database=news')
+CONN = psycopg2.connect('dbname=news')
 cursor = CONN.cursor()
 
 
@@ -17,8 +17,59 @@ def getTopPosts():
          """
     cursor.execute(QUERY)
     posts = cursor.fetchall()
-    CONN.close()
     return posts
+
+def getTopAuthors():
+    QUERY = """
+                select authors.name, count(log.path) from authors
+                join articles
+                on articles.author = authors.id
+
+                join log
+                on log.path LIKE '%' || articles.slug || '%'
+
+                group by authors.id
+
+                order by count DESC
+                
+                ;
+         """
+    cursor.execute(QUERY)
+    authors = cursor.fetchall()
+    return authors
+
+def getTopErrorDays():
+    QUERY = """
+                with T as (
+                    select date_trunc('day', time), count (*) from log
+                    group by date_trunc('day', time)
+                ),
+                F as (
+                    select date_trunc('day', time), count(*) from log
+                    where status != '200 OK'
+                    group by date_trunc('day', time)
+                )
+
+                select T.date_trunc, round(F.count * 100 / T.count::numeric, 2) as result
+                from T
+
+                join F on F.date_trunc = T.date_trunc
+
+                where (F.count * 100 / T.count) > 1
+
+                ;
+         """
+    cursor.execute(QUERY)
+    authors = cursor.fetchall()
+    return authors
 
 print "Getting the most popular three articles of all time"
 print getTopPosts()
+
+print "Getting the most popular article authors of all time"
+print getTopAuthors()
+
+print "Getting which days did more than 1% of requests lead to errors"
+print getTopErrorDays()
+
+CONN.close()
