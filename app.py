@@ -1,9 +1,11 @@
 from datetime import datetime
 from db_functions import getTopPosts, getTopAuthors, getTopErrorDays
 
+
+# write text to a file and print it to the terminal
 def printLine(text):
     with open("logFile.txt", "a+") as logFile:
-        logFile.write(str(datetime.now()) + ": " + text)
+        logFile.write(str(datetime.now()) + ": " + text + "\n")
     print(text)
 
 

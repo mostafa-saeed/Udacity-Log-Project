@@ -3,6 +3,7 @@ import psycopg2
 CONN = psycopg2.connect('dbname=news')
 cursor = CONN.cursor()
 
+
 def getTopPosts():
     QUERY = """
                 select articles.slug, count(articles.slug) from articles
@@ -17,6 +18,7 @@ def getTopPosts():
     cursor.execute(QUERY)
     posts = cursor.fetchall()
     return posts
+
 
 def getTopAuthors():
     QUERY = """
@@ -37,6 +39,7 @@ def getTopAuthors():
     authors = cursor.fetchall()
     return authors
 
+
 def getTopErrorDays():
     QUERY = """
                 with T as (
@@ -49,7 +52,8 @@ def getTopErrorDays():
                     group by date_trunc('day', time)
                 )
 
-                select T.date_trunc, round(F.count * 100 / T.count::numeric, 2) as result
+                select T.date_trunc,
+                    round(F.count * 100 / T.count::numeric, 2) as result
                 from T
 
                 join F on F.date_trunc = T.date_trunc
