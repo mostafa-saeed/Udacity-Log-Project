@@ -8,10 +8,16 @@ def printLine(text):
 
 
 printLine("Getting the most popular three articles of all time")
-printLine(getTopPosts())
+postsList = getTopPosts()
+for post in postsList:
+    printLine("- " + post[0] + " - " + post[1] + " views")
 
 printLine("Getting the most popular article authors of all time")
-printLine(getTopAuthors())
+authorsList = getTopAuthors()
+for author in authorsList:
+    printLine("- " + author[0] + " - " + author[1] + " views")
 
 printLine("Getting which days did more than 1% of requests lead to errors")
-printLine(getTopErrorDays())
+datesList = getTopErrorDays()
+for date in datesList:
+    printLine("- " + str(date[0].now().date()) + " - " + date[1] + " views")
