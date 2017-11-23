@@ -2,7 +2,7 @@
 A database log tool. It uses `psycopg2` to communicate with <a href="https://www.postgresql.org">PostgreSQL Database</a>, then it queries the database and wirte the results in a text file.
 
 ## How to run it
-* clone the project using `https://github.com/mostafa-saeed/Udacity-Log-Project`.
+* clone the project using `git clone https://github.com/mostafa-saeed/Udacity-Log-Project`.
 * change the directory using `cd Udacity-Log-Project`.
 * Run the application using `python3 app.py`.
 * Then you will find `logFile.txt` which inclues all the results from the database.
